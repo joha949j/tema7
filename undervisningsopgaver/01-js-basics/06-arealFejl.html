@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goddag test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+    <script>
+        //document.querySelector("button").addEventListener("click", buttonKlik);
+
+        // {
+        let længde = prompt("Angiv Længde");
+        let bredde = prompt("Angiv Bredde");
+
+        function areal(l, b) {
+            let a = (l * b);
+            if (a == 0) {
+                return (`Længde eller bredde må ikke være 0. Prøv igen`);
+            } else if (isNaN(a)) {
+                return (`Længde eller bredde må ikke være tal. Prøv igen`);
+            } else {
+                return (`Arealet er ${a}`);
+            }
+        }
+
+        let resultat = areal(længde, bredde);
+
+        confirm(resultat);
+
+        if (confirm) {
+            location.reload();
+        }
+
+    </script>
+</body>
+
+</html>

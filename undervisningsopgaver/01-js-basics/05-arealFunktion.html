@@ -24,12 +24,23 @@
             let længde = document.querySelector("#længde").value;
             let bredde = document.querySelector("#bredde").value;
             //let areal = længde * bredde;
-            let resultat = `Arealet er ${areal(længde, bredde)} kvadratmeter`;
+              let resultat = areal(længde, bredde);
             console.log(resultat);
+
         }
 
         function areal(l, b) {
-            return (l * b);
+            let a = (l * b);
+            if (a == 0) {
+                return (`Længde eller bredde må ikke være 0. Prøv igen`);
+            } else {
+                return (`Arealet er ${a}`);
+            }
         }
+
+
+
     </script>
-</body></html>
+</body>
+
+</html>

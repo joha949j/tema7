@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>areal øvelse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--   html-filen til denne øvelse, skal hedde 08-co2_beregning.htmlDu skal lave et program, som regner ud hvor meget CO2 du bruger på en flyrejse:co2UdledtIKgVedFlyrejse = timer  x 109Du skal ikke i dialog med brugeren i denne opgave - læg timer ind som en  variabel.Resultatet skal vises i console-vinduet efter denne form:Ved 3 timers flyrejse har du udledt 327 kg CO2Commit og push til gitHub, når du er tilfreds med opgaven-->
+
+    <p>Timer</p>
+    <input type="text" id="timer">
+    <button>Udregn</button>
+    <script>
+        document.querySelector("button").addEventListener("click", buttonKlik);
+
+        function buttonKlik() {
+            let timer = document.querySelector("#timer").value;
+            let c02 = 109;
+            let co2UdledtIKgVedFlyrejse = timer * c02;
+            let resultat = `Du har udledt ${co2UdledtIKgVedFlyrejse} kg Co2 ved at rejse i ${timer} timer`;
+            console.log(resultat);
+        }
+
+    </script>
+</body>
+
+</html>

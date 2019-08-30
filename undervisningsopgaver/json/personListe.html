@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Visalle</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .template {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #liste img {
+            width: 100%;
+        }
+
+        #liste {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(2, 2fr);
+        }
+
+        article {
+            border: 2px solid black;
+
+        }
+
+        article:nth-child(odd) {
+            background-color: grey;
+        }
+
+        article:nth-child(even) {
+            background-color: slategrey;
+        }
+
+        @media screen and (min-width: 800px) {
+            #liste {
+                grid-template-columns: repeat(6, 2fr);
+            }
+
+
+        }
+    </style>
+</head>
+
+<body> <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+            <a id="cap" href=""></a>
+        </article>
+    </template>
+    <section id="liste"></section>
+    <script>
+        //        let personer;
+        //
+        //        document.addEventListener("DOMContentLoaded", getJson);
+        //
+        //        async function getJson() {
+        //                let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json.json");
+        //                console.log("jsonData", jsonData);
+        //                personer = await jsonData.json();
+        //                start();
+        //        }
+        //
+        //                function start() {
+        //                    const dest = document.querySelector("#liste");
+        //                    const temp = document.querySelector("template");
+        //
+        //                    personer.feed.entry.forEach((person) => {
+        //                        const klon = temp.cloneNode(true).content;
+        //                        klon.querySelector("h2").textContent = person.gsx$navn.$t;
+        //                        klon.querySelector("img").src = person.gsx$billede.$t;
+        //                        klon.querySelector("#cap").textContent = person.gsx$github.$t;
+        //                        dest.appendChild(klon);
+        //                    })
+        //                }
+        let personer;
+
+        document.addEventListener("DOMContentLoaded", getJson);
+
+        async function getJson() {
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json");
+            console.log("jsonData", jsonData);
+            personer = await jsonData.json();
+            start();
+        }
+
+        function start() {
+            const dest = document.querySelector("#liste");
+            const temp = document.querySelector("template");
+
+            personer.feed.entry.forEach((person) => {
+                const klon = temp.cloneNode(true).content;
+                klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                klon.querySelector("img").src = person.gsx$billede.$t;
+                klon.querySelector("#cap").textContent = person.gsx$github.$t;
+                dest.appendChild(klon);
+            })
+        }
+    </script>
+</body></html>

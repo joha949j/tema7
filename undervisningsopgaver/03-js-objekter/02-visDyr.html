@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <style>
+        .indhold {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .indhold img {
+            height: 100px;
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <article class="indhold"></article>
+    <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+        const gris = {
+            "dyr": "Gris",
+            "type": "pattedyr",
+            "billede": "",
+            "levested": "svinefarme"
+        }
+
+        function start() {
+
+
+            //let tekst = `dyr: ${gris.dyr}, type ${gris.type}, levested: ${gris.levested}`;
+            //console.log(tekst)
+
+            let indhold = document.querySelector(".indhold")
+
+            indhold.textContent = `dyr: ${gris.dyr}, type ${gris.type}, levested: ${gris.levested}`;
+            indhold.innerHTML += `<img src=http://mabe-kea.dk/E19/pics/pig.png alt="gris">`;
+        }
+    </script>
+</body></html>

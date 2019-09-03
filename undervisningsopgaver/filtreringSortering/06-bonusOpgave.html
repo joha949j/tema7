@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Visalle</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        h1 {
+            color: slategrey;
+            margin-left: 200px;
+        }
+
+        .filter {
+            background-color: dimgrey;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            box-shadow: 0 5px #999;
+            display: inline-block;
+            padding: 10px;
+            margin-bottom: 25px;
+            margin-left: 45px;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+        }
+
+        .filter:hover {
+            background-color: darkslategrey;
+        }
+
+        .filter:active {
+            background-color: orange;
+            box-shadow: 0 5px gray;
+            transform: translateY(2px);
+        }
+
+        .template {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #liste img {
+            width: 100%;
+        }
+
+        #liste {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(1, 2fr);
+        }
+
+        article {
+            border: 2px solid black;
+
+        }
+
+        article:nth-child(odd) {
+            background-color: grey;
+        }
+
+        article:nth-child(even) {
+            background-color: slategrey;
+        }
+
+        .nu {
+            background-color: white;
+            color: black;
+        }
+
+
+
+        @media screen and (min-width: 800px) {
+            #liste {
+                grid-template-columns: repeat(2, 2fr);
+            }
+
+
+        }
+
+        @media screen and (min-width: 1100px) {
+            #liste {
+                grid-template-columns: repeat(3, 2fr);
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Alle</h1>
+    <nav>
+        <button class="filter valgt" data-køn="alle" data-hold="alle">Alle</button>
+        <button class="filter" data-køn="m" data-hold="alle">Mænd</button>
+        <button class="filter" data-køn="k" data-hold="alle">Kvinder</button>
+        <button class="filter" data-køn="andet" data-hold="alle">Andet</button>
+        <button class="filter" data-køn="m" data-hold="a">Mænd på Hold A</button>
+
+    </nav>
+
+    <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+            <a href="" id="cap"></a>
+        </article>
+    </template>
+    <section id="liste"></section>
+    <script>
+        let personer;
+        //        let filter = "alle";
+        let filterKøn = "m";
+        let filterHold = "a";
+
+        document.addEventListener("DOMContentLoaded", getJson);
+
+        async function getJson() {
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json");
+            console.log("jsonData", jsonData);
+            personer = await jsonData.json();
+            start();
+            addEventListenerToButtons();
+        }
+
+        function start() {
+            const dest = document.querySelector("#liste");
+            const temp = document.querySelector("template");
+            dest.innerHTML = "";
+
+            personer.feed.entry.forEach((person) => {
+                if (filter == "alle" || filter == person.gsx$køn.$t || filter == person.gsx$hold.$t) {
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+                    klon.querySelector("#cap").textContent = person.gsx$github.$t;
+                    dest.appendChild(klon);
+                }
+            })
+        }
+
+        function addEventListenerToButtons() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtrering);
+            })
+        }
+
+        function filtrering() {
+            filter = this.dataset.køn;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.classList.remove("nu");
+            })
+            this.classList.add("nu");
+            visPersoner();
+            addEventListenerToButtons();
+        }
+
+        function visPersoner() {
+            dest.innerHTML = "";
+            personer.feed.entry.forEach(person => {
+                        if ((filterKøn == "alle" || filter == person.gsx$køn.$t) && (filterHold == "alle" || filterHold == person.gsx$hold.$t)) {
+                            const theClone = theTemplatePointer.cloneNode(true).content;
+                            theClone.querySelector("h2").textContent = person.gsx$navn.$t;
+                            theClone.querySelector(".billede").src = person.gsx$billede.$t;
+                            theClone.querySelector(".billede").alt = person.gsx$navn.$t;
+                            theClone.querySelector(".github").href = `http://github.com/${person.gsx$github$t}`;
+                            theClone.querySelector(".github").textContent = `http://github.com/${person.gsx$github$t}`;
+                            dest.appendChild(theClone);
+
+
+                        }
+
+                    }
+    </script>
+</body></html>

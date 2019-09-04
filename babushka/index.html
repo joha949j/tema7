@@ -86,10 +86,10 @@
     <h1>Alle</h1>
     <nav>
         <button class="filter valgt" data-mad="alle">Alle</button>
-        <button class="filter" data-mad="f">Forretter</button>
-        <button class="filter" data-mad="h">Hovedretter</button>
-        <button class="filter" data-mad="d">Desserter</button>
-        <button class="filter" data-mad="drinks">Drikkevarer</button>
+        <button class="filter" data-mad="forretter">Forretter</button>
+        <button class="filter" data-mad="hovedretter">Hovedretter</button>
+        <button class="filter" data-mad="desserter">Desserter</button>
+        <button class="filter" data-mad="drikkevarer">Drikkevarer</button>
 
 
     </nav>
@@ -131,7 +131,7 @@
                     klon.querySelector("#pris").textContent = ret.gsx$pris.$t + ",-";
                     dest.appendChild(klon);
                     dest.lastElementChild.addEventListener("click", () => {
-                        location.href = `singleView.html?github=${person.gsx$github.$t}`;
+                        location.href = `singleView.html?navn=${ret.gsx$navn.$t}`;
                     });
                 }
             })
@@ -145,7 +145,7 @@
         }
 
         function filtrering() {
-            filter = this.dataset.ret;
+            filter = this.dataset.mad;
             document.querySelector("h1").textContent = this.textContent;
             document.querySelectorAll(".filter").forEach(elm => {
                 elm.classList.remove("nu");

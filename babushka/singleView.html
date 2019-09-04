@@ -17,9 +17,6 @@
 
         }
 
-
-
-
         .indhold {
             width: 70vw;
             min-height: 50vh;
@@ -28,63 +25,76 @@
             padding: 10px;
         }
 
-
-
         .luk {
             position: fixed;
             right: 0;
             font-size: 2rem;
         }
+
+        img {
+            width: 40vw;
+            height: 40vh;
+        }
+
     </style>
 </head>
 
 
 <body>
     <main id="single">
-        <button class="luk">Tilbage</button>
+        <button class="luk">X</button>
         <section class="indhold">
-            <article class="enkeltPerson">
+            <article class="singleRet">
                 <h2></h2>
                 <img class="billede" src="" alt="">
-                <p>Github: <a class="github" href=""></a></p>
-                <p class="historie">Historie: </p>
+                <p class="lang"></p>
+                <p class="oprindelse">Oprindelse:</p>
+                <p class="pris">,-</p>
             </article>
         </section>
     </main>
 
     <script>
         let urlParams = new URLSearchParams(window.location.search);
-        let github = urlParams.get("github");
-        console.log("github", github);
-        let personer;
+        let navn = urlParams.get("navn");
+        console.log("navn", navn);
+        let retter;
         document.addEventListener("DOMContentLoaded", getJson);
 
 
         async function getJson() {
-            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json");
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
             console.log("jsonData", jsonData);
-            personer = await jsonData.json();
-            visPerson();
+            retter = await jsonData.json();
+            visRetter();
         }
 
 
-        function visPerson() {
-            personer.feed.entry.forEach(person => {
-                if (person.gsx$github.$t == github) {
-                    console.log("uuuh thats a bingo", github);
-                    document.querySelector(".enkeltPerson h2").textContent = person.gsx$navn.$t;
-                    document.querySelector(".enkeltPerson .billede").src = person.gsx$billede.$t;
-                    document.querySelector(".enkeltPerson .billede").alt = person.gsx$navn.$t;
-                    document.querySelector(".enkeltPerson .github").href = `http://github.com/${person.gsx$github.$t}`;
-                    document.querySelector(".enkeltPerson .github").textContent = person.gsx$github.$t;
-                    document.querySelector(".enkeltPerson .historie").textContent = person.gsx$historie.$t;
+        function visRetter() {
+            retter.feed.entry.forEach(ret => {
+                if (ret.gsx$navn.$t == navn) {
+                    console.log("visRetter", navn);
+                    document.querySelector(".singleRet h2").textContent = ret.gsx$navn.$t;
+                    document.querySelector(".singleRet .lang").textContent = ret.gsx$lang.$t;
+                    document.querySelector(".singleRet .oprindelse").textContent = ret.gsx$oprindelse.$t;
+                    document.querySelector(".singleRet .pris").textContent = ret.gsx$pris.$t;
+                    document.querySelector(".singleRet .billede").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
+                    document.querySelector(".singleRet .billede").alt = `imgs/large/${ret.gsx$billede.$t}.jpg`;
 
+
+                    //                    document.querySelector(".single h2").textContent = ret.gsx$navn.$t;
+                    //                    document.querySelector(".single img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
+                    //                    document.querySelector(".single img").alt = ret.gsx$navn.$t;
+                    //                    document.querySelector(".signle lang p").textContent = ret.gsx$lang.$t;
                 }
 
             })
 
 
         }
+
     </script>
 
-</body></html>
+</body>
+
+</html>

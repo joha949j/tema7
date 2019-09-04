@@ -9,31 +9,45 @@
         #single {
             position: fixed;
             top 0;
-            background-color: brown;
+            background-color: white;
             width: 100vw;
             height: 100vh;
             /*            display: none;*/
-            overflow: scroll;
 
         }
 
         .indhold {
             width: 70vw;
             min-height: 50vh;
-            background: #fff;
+            background: white;
             margin: 4rem auto;
             padding: 10px;
         }
 
         .luk {
             position: fixed;
-            right: 0;
+            left: 2;
             font-size: 2rem;
+            border-radius: 10px;
+            border: none;
+            background-color: white;
+            color: #0000ff;
         }
 
         img {
-            width: 40vw;
-            height: 40vh;
+            width: 100%;
+        }
+
+        h2 {
+            color: red;
+            font-family: miller-display, serif;
+            font-weight: 400;
+            font-style: normal;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 13px;
         }
 
     </style>
@@ -42,7 +56,7 @@
 
 <body>
     <main id="single">
-        <button class="luk">X</button>
+        <button class="luk" href="index.html">←</button>
         <section class="indhold">
             <article class="singleRet">
                 <h2></h2>
@@ -74,24 +88,30 @@
             retter.feed.entry.forEach(ret => {
                 if (ret.gsx$navn.$t == navn) {
                     console.log("visRetter", navn);
+
                     document.querySelector(".singleRet h2").textContent = ret.gsx$navn.$t;
                     document.querySelector(".singleRet .lang").textContent = ret.gsx$lang.$t;
-                    document.querySelector(".singleRet .oprindelse").textContent = ret.gsx$oprindelse.$t;
-                    document.querySelector(".singleRet .pris").textContent = ret.gsx$pris.$t;
+                    document.querySelector(".singleRet .oprindelse").textContent = ("Oprindelse: ") + ret.gsx$oprindelse.$t;
+                    document.querySelector(".singleRet .pris").textContent = ret.gsx$pris.$t + (",-");
                     document.querySelector(".singleRet .billede").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
                     document.querySelector(".singleRet .billede").alt = `imgs/large/${ret.gsx$billede.$t}.jpg`;
 
 
-                    //                    document.querySelector(".single h2").textContent = ret.gsx$navn.$t;
-                    //                    document.querySelector(".single img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
-                    //                    document.querySelector(".single img").alt = ret.gsx$navn.$t;
-                    //                    document.querySelector(".signle lang p").textContent = ret.gsx$lang.$t;
                 }
 
             })
 
 
         }
+        document.querySelector(".luk").addEventListener("click", () => {
+            history.back();
+        });
+
+
+        //        function tilbage {
+        // console.log(lukSingle);
+        // document.querySelector("#single").style.display = "none";
+        // }
 
     </script>
 

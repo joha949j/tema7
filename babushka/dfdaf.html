@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BABUSHKA</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        h1 {
+            color: black;
+            text-align: center;
+        }
+
+        .filter {
+            background-color: dimgrey;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            box-shadow: 0 5px #999;
+            display: inline-block;
+            padding: 10px;
+            margin: 0 auto;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .nu {
+            background-color: rebeccapurple;
+            color: black;
+        }
+
+        .template {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #liste img {
+            width: 100%;
+        }
+
+        #liste {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: 1fr;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        article {
+            border: 2px solid black;
+
+
+        }
+
+        article:nth-child(odd) {
+            background-color: grey;
+        }
+
+        article:nth-child(even) {
+            background-color: slategrey;
+        }
+
+
+
+        @media screen and (min-width: 800px) {
+            #liste {
+                grid-template-columns: repeat(2, 2fr);
+            }
+
+
+        }
+
+        @media screen and (min-width: 1100px) {
+            #liste {
+                grid-template-columns: repeat(3, 2fr);
+            }
+
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Alle</h1>
+    <nav>
+        <button class="filter valgt" data-mad="alle">Alle</button>
+        <button class="filter" data-mad="f">Forretter</button>
+        <button class="filter" data-mad="h">Hovedretter</button>
+        <button class="filter" data-mad="d">Desserter</button>
+        <button class="filter" data-mad="drinks">Drikkevarer</button>
+
+
+    </nav>
+
+    <template>
+        <article>
+            <img src="" alt="">
+            <h2></h2>
+            <p id="kortb"></p>
+            <p id="pris"></p>
+        </article>
+    </template>
+    <section id="liste"></section>
+    <script>
+        let retter;
+        let filter = "alle";
+
+        document.addEventListener("DOMContentLoaded", getJson);
+
+        async function getJson() {
+            let jsonData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
+            console.log("jsonData", jsonData);
+            retter = await jsonData.json();
+            start();
+            addEventListenerToButtons();
+        }
+
+        function start() {
+            const dest = document.querySelector("#liste");
+            const temp = document.querySelector("template");
+            dest.innerHTML = "";
+
+            retter.feed.entry.forEach((ret) => {
+                if (filter == "alle" || filter == ret.gsx$mad.$t) {
+                    const klon = temp.cloneNode(true).content;
+                    klon.querySelector("img").src = `imgs/small/${ret.gsx$billede.$t}-sm.jpg`;
+                    klon.querySelector("h2").textContent = ret.gsx$navn.$t;
+                    klon.querySelector("#kortb").textContent = ret.gsx$kort.$t;
+                    klon.querySelector("#pris").textContent = ret.gsx$pris.$t + ",-";
+                    dest.appendChild(klon);
+                    dest.lastElementChild.addEventListener("click", () => {
+                        location.href = `singleView.html?github=${person.gsx$github.$t}`;
+                    });
+                }
+            })
+        }
+
+
+        function addEventListenerToButtons() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtrering);
+            })
+        }
+
+        function filtrering() {
+            filter = this.dataset.ret;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.classList.remove("nu");
+
+            })
+            this.classList.add("nu");
+            start();
+        }
+
+    </script>
+</body>
+
+</html>
